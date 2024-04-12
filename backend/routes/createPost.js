@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/requireLogin");
+const { error } = require("console");
 const POST = mongoose.model("POST")
 
 router.get("/allposts",requireLogin,(req,res)=>{
@@ -37,19 +38,16 @@ router.get('/myposts',requireLogin,(req,res)=>{
         res.json(myposts)
     })
 });
-/*
+
 router.put("/like",requireLogin,(req,res)=>{
     POST.findByIdAndUpdate(req.body.postId,{
         $push:{likes:req.user._id}
     },{
         new:true
-    }).exec((err,result)=>{
-        if(err){
-            return res.status(422).json()
-        }
-        else{
-            res.json(result)
-        }
+    }).then((result)=>{
+        return res.json(result)
+    }).catch((err)=>{
+        console.log(err);
     })
 })
 
@@ -58,13 +56,10 @@ router.put("/unlike",requireLogin,(req,res)=>{
         $pull:{likes:req.user._id}
     },{
         new:true
-    }).exec((err,result)=>{
-        if(err){
-            return res.status(422).json()
-        }
-        else{
-            res.json(result)
-        }
+    }).then((result)=>{
+        return res.json(result)
+    }).catch((err)=>{
+        console.log(err);
     })
-})*/
+})
 module.exports = router;

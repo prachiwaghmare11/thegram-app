@@ -22,7 +22,7 @@ export default function Home() {
     .then(result=>setData(result))
     .catch(err=>console.log(err))
   },[])
-/*
+
   const likePost=(id)=>{
     fetch("http://localhost:5000/like",{
       method:"put",
@@ -32,12 +32,17 @@ export default function Home() {
       },
       body:JSON.stringify({
         postId:id
-      }).then(res=>res.json())
-      .then((result)=>{
-        console.log(result)
       })
-    }
-    )
+    }).then(res=>res.json())
+    .then((result)=>{
+      const newData=data.map((posts)=>{
+        if(posts._id==result._id) return result;
+        else return posts;
+      })
+
+      setData(newData)
+      console.log(result)
+    })
   }
 
   const unlikePost=(id)=>{
@@ -49,14 +54,20 @@ export default function Home() {
       },
       body:JSON.stringify({
         postId:id
-      }).then(res=>res.json())
-      .then((result)=>{
-        console.log(result)
       })
-    }
-    )
-  }
-*/
+    })
+  .then(res=>res.json())
+  .then((result)=>{
+    const newData=data.map((posts)=>{
+      if(posts._id==result._id) return result;
+      else return posts;
+    })
+
+    setData(newData)
+    console.log(result)
+  })
+}
+
   return (
     <div className='home'>
       {/** Card  */}
@@ -76,9 +87,13 @@ export default function Home() {
         </div>
         {/**Card Content */}
         <div className="card-content">
-          <span className="material-symbols-outlined" >favorite</span>
-          <span className="material-symbols-outlined material-symbols-outlined-red" >favorite</span>
-            <p>1 like</p>
+          {
+            posts.likes.includes(JSON.parse(localStorage.getItem("user"))._id)?(
+              <span className="material-symbols-outlined material-symbols-outlined-red" onClick={()=>{unlikePost(posts._id)}} >favorite</span>
+            ):(<span className="material-symbols-outlined" onClick={()=>{likePost(posts._id)}} >favorite</span>)
+            
+          }
+            <p>{posts.likes.length} Likes</p>
             <p>{posts.body}</p>
         </div>
         {/**Card Comment */}

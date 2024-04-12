@@ -22,7 +22,7 @@ export default function Profile() {
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoLyku9z5NMcJI903GVWLJU82eaF2x5-UgCA&usqp=CAU" alt="Profile Photo"></img>
         </div>
         <div className="profile-data">
-          <h1>Prachi</h1>
+          <h1>{JSON.parse(localStorage.getItem("user")).name}</h1>
           <div className="profile-info" style={{display:"flex"}}  >
             <p>40 posts</p>
             <p>50 followers</p>

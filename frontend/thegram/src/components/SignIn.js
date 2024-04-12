@@ -38,7 +38,8 @@ export default function SignIn() {
           }
           else {
             notifyB("Signed in Successfully");
-            localStorage.setItem("jwt",data)
+            localStorage.setItem("jwt",data.token)
+            localStorage.setItem("user",JSON.stringify(data.user))
             
             navigate("/")
           }

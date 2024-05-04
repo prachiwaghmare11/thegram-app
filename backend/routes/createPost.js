@@ -38,6 +38,7 @@ router.post("/createPost", requireLogin, (req, res) => {
 router.get("/myposts", requireLogin, (req, res) => {
   POST.find({ postedBy: req.user._id })
     .populate("postedBy", "_id name")
+    .populate("comments.postedBy", "_id name")
     .then((myposts) => {
       res.json(myposts);
     });
@@ -53,6 +54,7 @@ router.put("/like", requireLogin, (req, res) => {
       new: true,
     }
   )
+    .populate("postedBy", "_id name")
     .then((result) => {
       return res.json(result);
     })
@@ -71,6 +73,7 @@ router.put("/unlike", requireLogin, (req, res) => {
       new: true,
     }
   )
+    .populate("postedBy", "_id name")
     .then((result) => {
       return res.json(result);
     })
@@ -102,5 +105,38 @@ router.put("/comment", requireLogin, (req, res) => {
     .catch((err) => {
       return res.status(422).json({ error: err });
     });
+});
+
+//Api to delete posts
+router.delete("/deletePost/:postId", requireLogin, (req, res) => {
+  console.log("server id for delete" + req.params.postId);
+  POST.findOne({ _id: req.params.postId })
+    .populate("postedBy", "_id")
+    .then((post) => {
+      if (post.postedBy._id.toString() == req.user._id.toString()) {
+        console.log(req.user._id.toString());
+
+        post
+          .deleteOne()
+          .then((result) => {
+            console.log(result);
+            return res.json({ message: "Successfully deleted" });
+          })
+          .catch((err) => console.log(err));
+      }
+    })
+    .catch((err) => {
+      return res.status(422).json({ error: err });
+    });
+});
+
+//to show following post
+
+router.get("/myfollowingpost", requireLogin, (req, res) => {
+  POST.find({postedBy:{$in:req.user.following}})
+  .populate("postedBy","_id name")
+  .populate("comments.postedBy","_id name")
+  .then(posts=>res.json(posts))
+  .catch(err=>{console.log(err)})
 });
 module.exports = router;

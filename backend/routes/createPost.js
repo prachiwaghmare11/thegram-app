@@ -7,8 +7,9 @@ const POST = mongoose.model("POST");
 
 router.get("/allposts", requireLogin, (req, res) => {
   POST.find()
-    .populate("postedBy", "_id name")
+    .populate("postedBy", "_id name Photo")
     .populate("comments.postedBy", "_id name")
+    .sort("-createdAt")
     .then((posts) => res.json(posts))
     .catch((err) => console.log(err));
 });
@@ -37,8 +38,9 @@ router.post("/createPost", requireLogin, (req, res) => {
 
 router.get("/myposts", requireLogin, (req, res) => {
   POST.find({ postedBy: req.user._id })
-    .populate("postedBy", "_id name")
+    .populate("postedBy", "_id name Photo")
     .populate("comments.postedBy", "_id name")
+    .sort("-createdAt")
     .then((myposts) => {
       res.json(myposts);
     });
@@ -54,7 +56,7 @@ router.put("/like", requireLogin, (req, res) => {
       new: true,
     }
   )
-    .populate("postedBy", "_id name")
+    .populate("postedBy", "_id name Photo")
     .then((result) => {
       return res.json(result);
     })
@@ -73,7 +75,7 @@ router.put("/unlike", requireLogin, (req, res) => {
       new: true,
     }
   )
-    .populate("postedBy", "_id name")
+    .populate("postedBy", "_id name Photo")
     .then((result) => {
       return res.json(result);
     })
@@ -98,7 +100,7 @@ router.put("/comment", requireLogin, (req, res) => {
     }
   )
     .populate("comments.postedBy", "_id name")
-    .populate("postedBy", "_id name")
+    .populate("postedBy", "_id name Photo")
     .then((result) => {
       return res.json(result);
     })
@@ -133,10 +135,12 @@ router.delete("/deletePost/:postId", requireLogin, (req, res) => {
 //to show following post
 
 router.get("/myfollowingpost", requireLogin, (req, res) => {
-  POST.find({postedBy:{$in:req.user.following}})
-  .populate("postedBy","_id name")
-  .populate("comments.postedBy","_id name")
-  .then(posts=>res.json(posts))
-  .catch(err=>{console.log(err)})
+  POST.find({ postedBy: { $in: req.user.following } })
+    .populate("postedBy", "_id name")
+    .populate("comments.postedBy", "_id name")
+    .then((posts) => res.json(posts))
+    .catch((err) => {
+      console.log(err);
+    });
 });
 module.exports = router;

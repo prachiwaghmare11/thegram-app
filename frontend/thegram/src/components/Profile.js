@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import PostDetails from "./PostDetails";
+import ProfilePic from "./ProfilePic";
 export default function Profile() {
+  var picLink =
+    "https://png.pngtree.com/png-clipart/20210129/ourmid/pngtree-blue-default-avatar-png-image_2813123.jpg";
   const [pic, setPic] = useState([]);
   const [show, setShow] = useState(false);
   const [posts, setPosts] = useState([]);
-
+  const [changePic, setChangePic] = useState();
+  const [user, setUser] = useState("");
   const toggleDetails = (posts) => {
     if (show) {
       setShow(false);
@@ -14,15 +18,30 @@ export default function Profile() {
       setShow(true);
     }
   };
+
+  const changeProfile = () => {
+    if (changePic) {
+      setChangePic(false);
+    } else {
+      setChangePic(true);
+    }
+  };
   useEffect(() => {
-    fetch("http://localhost:5000/myposts", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    })
+    fetch(
+      `http://localhost:5000/user/${
+        JSON.parse(localStorage.getItem("user"))._id
+      }`,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      }
+    )
       .then((res) => res.json())
       .then((result) => {
-        setPic(result);
+        setPic(result.post);
+        setUser(result.user);
+        console.log(result.user);
       });
   }, []);
 
@@ -31,18 +50,17 @@ export default function Profile() {
       <div className="profile-frame">
         <div className="profile-pic">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoLyku9z5NMcJI903GVWLJU82eaF2x5-UgCA&usqp=CAU"
+            onClick={changeProfile}
+            src={user.Photo ? user.Photo : picLink}
             alt="Profile Photo"
           ></img>
         </div>
         <div className="profile-data">
           <h1>{JSON.parse(localStorage.getItem("user")).name}</h1>
           <div className="profile-info" style={{ display: "flex" }}>
-            <p>{posts.length} posts</p>
-            <p>{posts.followers ? posts.followers.length : "0"} followers</p>
-            <p>
-              {posts.following.length ? posts.following.length : "0"} following
-            </p>
+            <p>{pic ? pic.length : "0"} posts</p>
+            <p>{user.followers ? user.followers.length : "0"} followers</p>
+            <p>{user.following ? user.following.length : "0"} following</p>
           </div>
         </div>
       </div>
@@ -70,6 +88,8 @@ export default function Profile() {
       {show && (
         <PostDetails item={posts} toggleDetails={toggleDetails}></PostDetails>
       )}
+
+      {changePic && <ProfilePic changeProfile={changeProfile}></ProfilePic>}
     </div>
   );
 }

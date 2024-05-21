@@ -3,6 +3,8 @@ import "./Profile.css";
 import PostDetails from "./PostDetails";
 import { useParams } from "react-router-dom";
 export default function UserProfile() {
+  var picLink = "https://www.flaticon.com/free-icon/user_456141";
+
   const [pic, setPic] = useState([]);
   const [user, setUser] = useState("");
   const [posts, setPosts] = useState([]);
@@ -71,7 +73,7 @@ export default function UserProfile() {
       <div className="profile-frame">
         <div className="profile-pic">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoLyku9z5NMcJI903GVWLJU82eaF2x5-UgCA&usqp=CAU"
+            src={user.Photo ? user.Photo : picLink}
             alt="Profile Photo"
           ></img>
         </div>

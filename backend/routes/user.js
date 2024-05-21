@@ -111,4 +111,20 @@ router.put("/unfollow", requireLogin, (req, res) => {
     });
 });
 
+//to upload profile pic
+router.put("/uploadProfilePic", requireLogin, (req, res) => {
+  USER.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set: { Photo: req.body.pic },
+    },
+    {
+      new: true,
+    }
+  )
+    .then((result) => res.json(result))
+    .catch((err) => {
+      return res.status(422).json({ error: err });
+    });
+});
 module.exports = router;

@@ -12,6 +12,7 @@ import CreatePost from "./components/CreatePost";
 import { LoginContext } from "./context/LoginContext";
 import Modal from "./components/Modal";
 import UserProfile from "./components/UserProfile";
+import MyFollowingPosts from "./components/MyFollowingPosts";
 
 function App() {
   const [userLogin, setUserLogin] = useState("");
@@ -28,6 +29,7 @@ function App() {
             <Route exact path="/profile" element={<Profile />}></Route>
             <Route path="/createPost" element={<CreatePost />}></Route>
             <Route path="/profile/:userId" element={<UserProfile />}></Route>
+            <Route path="/followingpost" element={<MyFollowingPosts />}></Route>
           </Routes>
           <ToastContainer theme="dark" />
           {modalOpen && <Modal setModalOpen={setModalOpen}></Modal>}

@@ -4,15 +4,15 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
-import Profile from "./components/Profile";
-import Home from "./components/Home";
+import Profile from "./screens/Profile";
+import Home from "./screens/Home";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CreatePost from "./components/CreatePost";
+import CreatePost from "./screens/CreatePost";
 import { LoginContext } from "./context/LoginContext";
 import Modal from "./components/Modal";
 import UserProfile from "./components/UserProfile";
-import MyFollowingPosts from "./components/MyFollowingPosts";
+import MyFollowingPosts from "./screens/MyFollowingPosts";
 
 function App() {
   const [userLogin, setUserLogin] = useState("");

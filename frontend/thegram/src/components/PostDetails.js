@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./PostDetails.css";
+import "../css/PostDetails.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 export default function PostDetails({ item, toggleDetails }) {

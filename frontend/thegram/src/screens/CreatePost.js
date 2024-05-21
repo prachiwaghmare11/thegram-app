@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./CreatePost.css";
+import "../css/CreatePost.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 export default function CreatePost() {

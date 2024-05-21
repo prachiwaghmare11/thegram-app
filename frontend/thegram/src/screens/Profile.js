@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./Profile.css";
-import PostDetails from "./PostDetails";
-import ProfilePic from "./ProfilePic";
+import "../css/Profile.css";
+import PostDetails from "../components/PostDetails";
+import ProfilePic from "../components/ProfilePic";
 export default function Profile() {
   var picLink =
     "https://png.pngtree.com/png-clipart/20210129/ourmid/pngtree-blue-default-avatar-png-image_2813123.jpg";

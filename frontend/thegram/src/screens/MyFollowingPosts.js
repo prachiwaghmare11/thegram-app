@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./Home.css";
+import "../css/Home.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-export default function Home() {
-  var picLink =
-    "https://png.pngtree.com/png-clipart/20210129/ourmid/pngtree-blue-default-avatar-png-image_2813123.jpg";
+export default function MyFollowingPosts() {
   const [data, setData] = useState([]);
   const [comment, setComment] = useState();
   const [show, setShow] = useState(false);
@@ -22,7 +20,7 @@ export default function Home() {
 
     //Fetching all posts
 
-    fetch("http://localhost:5000/allposts", {
+    fetch("http://localhost:5000/myfollowingpost", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -128,7 +126,7 @@ export default function Home() {
             <div className="card-header">
               <div className="card-pic">
                 <img
-                  src={posts.postedBy.Photo ? posts.postedBy.Photo : picLink}
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoLyku9z5NMcJI903GVWLJU82eaF2x5-UgCA&usqp=CAU"
                   alt="Profile Photo"
                 ></img>
               </div>

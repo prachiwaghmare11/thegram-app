@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Profile.css";
+import "../css/Profile.css";
 import PostDetails from "./PostDetails";
 import { useParams } from "react-router-dom";
 export default function UserProfile() {
